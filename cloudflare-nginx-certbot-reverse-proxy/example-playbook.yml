@@ -1,0 +1,11 @@
+- hosts: myservice.example.com
+  become: true
+  vars:
+    cncrp_target_url: "http://localhost:2342"
+    cncrp_redirect_http: True
+    cncrp_cloudflare_api_token: "insert your cloudlfare api token here"
+    cncrp_email: "admin@example.cpm"
+    cncrp_client_max_body_size: "50G"
+    cncrp_websocket: true
+  roles:
+    - cloudflare-nginx-certbot-reverse-proxy

@@ -1,0 +1,43 @@
+---
+- name: Install Certbot
+  ansible.builtin.include_role:
+    name: geerlingguy.certbot    
+
+- name: Install Certbot Cloudflare
+  ansible.builtin.package:
+    name: python3-certbot-dns-cloudflare
+    state: present
+
+- name: Create Certbot folder - /etc/letsencrypt
+  ansible.builtin.file:
+    path: /etc/letsencrypt
+    state: directory
+    owner: root
+    group: root
+    mode: "0700"
+
+- name: Prepare facts for Certbot
+  ansible.builtin.set_fact:
+    certbot_cloudflare_api_token: "{{ cncrp_cloudflare_api_token }}"
+    certbot_auto_renew: true
+    certbot_auto_renew_user: root
+    certbot_create_method: standalone
+    certbot_create_standalone_stop_services:
+      - nginx
+    certbot_create_command: "certbot certonly --noninteractive --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/dnscloudflare.ini --agree-tos --email {{ '{{' }} cert_item.email | default(certbot_admin_email) {{ '}}' }} -d {{ '{{' }} cert_item.domains | join(',') {{ '}}' }}"
+    certbot_create_if_missing: yes
+    certbot_certs:
+      - domains:
+          - "{{ cncrp_domain }}"
+
+- name: Certbot Dnscloudflare Template
+  ansible.builtin.template:
+    src: "dnscloudflare.ini.j2"
+    dest: "/etc/letsencrypt/dnscloudflare.ini"
+    owner: root
+    group: root
+    mode: "0600"
+
+- name: Configure Certbot
+  ansible.builtin.include_role:
+    name: geerlingguy.certbot

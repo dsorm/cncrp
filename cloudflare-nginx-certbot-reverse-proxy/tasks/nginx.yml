@@ -1,0 +1,30 @@
+---
+- name: Install Nginx
+  ansible.builtin.package:
+    name: nginx
+    state: present
+
+- name: Create Nginx ssl directory
+  ansible.builtin.file:
+    path: /etc/nginx/ssl
+    state: directory
+    mode: "0755"
+
+- name: Copy Nginx configuration file
+  ansible.builtin.template:
+    src: nginx.conf.j2
+    owner: root
+    group: root
+    dest: /etc/nginx/sites-available/{{ cncrp_domain }}.conf
+    mode: "0664"
+
+- name: Enable Nginx site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/{{ cncrp_domain }}.conf
+    dest: /etc/nginx/sites-enabled/{{ cncrp_domain }}.conf
+    state: link
+
+- name: Reload Nginx
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded

@@ -1,0 +1,8 @@
+---
+- name: Install and Configure Certbot
+  import_tasks: certbot.yml
+  when: cncrp_configure_certbot 
+
+- name: Install and Configure Nginx
+  import_tasks: nginx.yml
+  when: cncrp_configure_nginx 

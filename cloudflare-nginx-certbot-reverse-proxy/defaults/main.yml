@@ -1,0 +1,9 @@
+cncrp_domain: "{{ ansible_host }}"
+cncrp_target_url: "http://localhost:8080"
+cncrp_email: "example@example.com"
+cncrp_redirect_http: True
+cncrp_cloudflare_api_token: ""
+cncrp_websocket: false
+cncrp_client_max_body_size: "100M"
+cncrp_configure_certbot: true
+cncrp_configure_nginx: true

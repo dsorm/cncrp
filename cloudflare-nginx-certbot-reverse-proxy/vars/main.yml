@@ -1,0 +1,4 @@
+certbot_install_method: package
+
+certbot_email: "{{ cncrp_email }}"
+certbot_admin_email: "{{ cncrp_email }}"
