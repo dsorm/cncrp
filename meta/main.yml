@@ -1,0 +1,17 @@
+galaxy_info:
+  author: David Sorm
+  description: Cloudflare Nginx Certbot Reverse Proxy
+  company: David Sorm
+  license: GNU General Public License v3.0
+  min_ansible_version: 2.16
+  platforms:
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+  galaxy_tags: []
+dependencies:
+  - name: geerlingguy.certbot
+    version: 5.1.0
